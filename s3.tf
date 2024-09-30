@@ -14,8 +14,8 @@
 
 
 resource "aws_s3_bucket" "name" {
-  for_each = var.s3_buckets
-  bucket = "${var.name}-${each.key}"
+  count = var.s3_enabled ? 1 : 0
+  bucket = "my-app-bucket-"
   acl    = "private"
 
   versioning {
@@ -29,13 +29,9 @@ resource "aws_s3_bucket" "name" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "lifecycle" {
-  for_each = var.s3_buckets
-  bucket   = aws_s3_bucket.name[each.key].id
-
+  count = var.s3_enabled ? 1 : 0
+  bucket = aws_s3_bucket.name[0].bucket
   rule {
-    abort_incomplete_multipart_upload {
-      days_after_initiation = 7
-    }
     id      = "expire_old_files"
     status  = "Enabled"
     prefix  = ""
@@ -47,6 +43,14 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle" {
 
     expiration {
       days = 365
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 1
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
     }
   }
 }
