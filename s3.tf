@@ -23,8 +23,8 @@ resource "aws_s3_bucket" "name" {
   }
 
   tags = {
-    Name        = "${var.name}-${each.key}"
-    Environment = var.env
+    Name        = "test"
+    Environment = "tset"
   }
 }
 
