@@ -1,1 +1,1 @@
-number_of_eks_clusters=2
+s3_enabled=true
