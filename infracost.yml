@@ -1,0 +1,6 @@
+version: 0.1
+projects:
+    - path: .
+      name: dev
+      terraform_var_files:
+        - environment/dev.tfvars
