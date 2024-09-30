@@ -33,7 +33,6 @@ variable "s3_buckets" {
   description = "The list of S3 buckets to create."
   type        = list(string)
   default     = ["dev", "prod"]
-  
 }
 
 variable "number_of_eks_clusters" {
