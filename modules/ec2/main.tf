@@ -32,5 +32,17 @@ resource "aws_instance" "ec2_instance_2" {
   # Tags for identifying the instance
   tags = {
     Name = "${var.name}-instance"
+    Service = "ec2"
+    Environment = "dev"
+  }
+
+  root_block_device {
+    volume_size = 100
+    volume_type = "gp2"
+    tags = {
+      Name = "${var.name}-root"
+      Service = "ec2"
+      Environment = "dev"
+    }
   }
 }
