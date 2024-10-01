@@ -10,7 +10,7 @@ resource "aws_instance" "ec2_instance" {
 
 resource "aws_ebs_volume" "ec2-instance-ebs" {
   availability_zone = "${var.aws_region}a"
-  size              = 30
+  size              = 300
   type = "gp3"
   tags = {
     Name = "${var.name}-volume"

@@ -14,3 +14,42 @@ module "ec2" {
 module "eks" {
   source          = "./modules/eks"
 }
+
+resource "aws_eks_cluster" "my_cluster" {
+  name     = "my-eks-cluster"
+  role_arn = aws_iam_role.my_eks_role.arn
+  version  = "1.21"
+
+  vpc_config {
+    subnet_ids = [aws_subnet.my_subnet.id]
+  }
+}
+
+resource "aws_iam_role" "my_eks_role" {
+  name = "my-eks-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_subnet" "my_subnet" {
+  vpc_id                  = aws_vpc.my_vpc.id
+  cidr_block              = "10.0.0.0/24"
+  availability_zone       = "sa-east-1a"
+}
+
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16"
+}
