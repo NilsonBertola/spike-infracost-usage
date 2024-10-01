@@ -14,6 +14,8 @@ resource "aws_ebs_volume" "ec2-instance-ebs" {
   type = "gp3"
   tags = {
     Name = "${var.name}-volume"
+    Service = "ec2"
+    Environment = "dev"
   }
 }
 

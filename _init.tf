@@ -3,16 +3,16 @@ provider "aws" {
 }
 
 module "ec2" {
-  source     = "./modules/ec2"
-  ami_id     = var.ami_id
-  name       = var.name
-  aws_region = var.aws_region
+  source        = "./modules/ec2"
+  ami_id        = var.ami_id
+  name          = var.name
+  aws_region    = var.aws_region
   instance_type = var.instance_type
 
 }
 
 module "eks" {
-  source          = "./modules/eks"
+  source = "./modules/eks"
 }
 
 resource "aws_eks_cluster" "my_cluster" {
@@ -22,6 +22,11 @@ resource "aws_eks_cluster" "my_cluster" {
 
   vpc_config {
     subnet_ids = [aws_subnet.my_subnet.id]
+  }
+
+  tags = {
+    Environment = "dev"
+    Service     = "eks"
   }
 }
 
@@ -42,14 +47,29 @@ resource "aws_iam_role" "my_eks_role" {
   ]
 }
 EOF
+
+  tags = {
+    Environment = "dev"
+    Service     = "eks"
+  }
 }
 
 resource "aws_subnet" "my_subnet" {
-  vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = "10.0.0.0/24"
-  availability_zone       = "sa-east-1a"
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.0.0/24"
+  availability_zone = "sa-east-1a"
+  tags = {
+    Name = "my_subnet"
+    Service = "eks"
+    Environment = "dev"
+  }
 }
 
 resource "aws_vpc" "my_vpc" {
   cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "my_vpc"
+    Service = "eks"
+    Environment = "dev"
+  }
 }
