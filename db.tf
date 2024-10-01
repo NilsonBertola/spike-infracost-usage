@@ -9,4 +9,9 @@ resource "aws_db_instance" "postgresql" {
   publicly_accessible  = false
   skip_final_snapshot  = true
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  tags = {
+    Name        = "postgresql"
+    Environment = "Dev"
+    Service     = "rds"
+  }
 }

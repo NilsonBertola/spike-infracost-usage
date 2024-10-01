@@ -22,3 +22,13 @@ resource "aws_volume_attachment" "ebs_att" {
   volume_id   = aws_ebs_volume.ec2-instance-ebs.id
   instance_id = aws_instance.ec2_instance.id
 }
+
+resource "aws_instance" "ec2_instance_2" {
+  ami           = "${var.ami_id}"
+  instance_type = "${var.instance_type}"
+
+  # Tags for identifying the instance
+  tags = {
+    Name = "${var.name}-instance"
+  }
+}

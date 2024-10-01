@@ -13,6 +13,11 @@ resource "aws_iam_role" "eks_worker_role" {
       }
     ]
   })
+  tags = {
+    Name = "eks_worker_role"
+    Service = "eks"
+    Environment = "dev"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "eks_worker_attach" {

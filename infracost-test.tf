@@ -7,6 +7,7 @@ resource "aws_lambda_function" "my_hello_world" {
 
   memory_size = 512
   tags = {
-    Environment = "Prod"
+    Environment = "dev"
+    Service = "lambda"
   }
 }
